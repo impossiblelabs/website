@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Impossible Labs - building amazing product for incredible companies">
+    <meta name="description" content="Impossible Labs specialises in creating advanced tech solutions to accelerate innovation. Connect with us to transform your next big idea into reality.">
+
+    <title>Impossible Labs - building amazing product for incredible companies</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Righteous|Raleway:300,700);
+      img {
+        width: 100%;
+      }
+
+      section {
+        background: #333333;
+        font-family: "Raleway";
+        font-size: 16px;
+        line-height: 22px;
+        min-height: 100vh;
+      }
+
+      .col {
+        display: flex;
+        align-items: center;
+      }
+
+      .border-fixed {
+        position: fixed;
+        top: 20px;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        border: 5px solid #cccccc;
+        z-index: 90;
+        mix-blend-mode: multiply;
+        pointer-events:none;
+      }
+
+      .content {
+        z-index: 100;
+        max-width: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+
+      h1 {
+        font-size: 90px;
+        color: #ffffff;
+        font-weight: 700;
+        font-family: "Righteous";
+        margin-top: 90px;
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-size: 25px;
+        color: #cccccc;
+        line-height: 35px;
+        text-shadow: 2px 2px 4px white;
+      }
+
+      p {
+        padding: 30px 0;
+        color: #cccccc;
+      }
+
+      small {
+        color: #999999!important;
+      }
+
+      a.button {
+        border-radius: 2;
+        border: 2px solid #E5EBEA;
+        padding: 5% 10%;
+        margin: 10px 0;
+        color: #E5EBEA;
+        font-family: "Raleway";
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+        display: block;
+        text-align: center;
+        position: relative;
+      }
+
+      a.button:hover {
+        top: 2px;
+        text-decoration: none;
+        border: 2px solid #999999;
+        color: #999999;
+      }
+
+      .balloon {
+        margin: 0!important;
+        padding: 0!important;
+        background: url(https://scene360.com/wp-content/uploads/2014/01/deskriptiv-03.jpg) no-repeat top left;
+        background-attachment: fixed;
+        background-size: contain;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .max-width {
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 850px) {
+        small {
+          margin-top: 45px;
+          display: block;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .balloon {
+          background-size: cover;
+          background-position: center center;
+          width: 100%;
+          height: 100%;
+        }
+        a.button {
+          padding: 3% 6%;
+        }
+        h1 {
+          font-size: 28vw;
+        }
+        h2 {
+          font-size: 6vw;
+          line-height: 8vw;
+        }
+        p {
+          font-size: 4vw;
+          line-height: 6vw;
+        }
+        .max-width {
+          margin: 50px auto;
+        }
+        h1, h2, p {
+          font-size: 5vw;
+          line-height: 1.4;
+        }
+        a.button {
+          padding: 10px 20px;
+          font-size: 5vw;
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 22vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+            <div class="balloon"></div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-12 text-center">
+            <h1>Impossible&nbsp;<small>Labs</small></h1>
+            <div class="max-width">
+              <h2>Driving Innovation with Tailored Tech Solutions</h2>
+              <p>
+                At Impossible Labs, we believe in powering startups by building robust technological infrastructures that pave the way for scalable growth. From AI-driven analytics to bespoke software development, our solutions are designed to propel your business into the future.
+                <br><br>
+                <small>"Only those who attempt the absurd will achieve the impossible." - M. Escher</small>
+              </p>
+              <a href="mailto:info@impossiblelabs.xyz" class="button" role="button">
+                Explore Our Services
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="border-fixed"></div>
+  </body>
+</html>
