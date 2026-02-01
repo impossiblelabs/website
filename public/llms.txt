@@ -1,0 +1,36 @@
+# ImpossibleLabs
+
+> A hardware and software studio turning wild ideas into real products. Open source by default.
+
+## About
+
+ImpossibleLabs is a tech studio by OxMarco. We turn absurd ideas into reality, combining hardware and software to build experimental projects. Our philosophy is inspired by M.C. Escher: "Only those who attempt the absurd will achieve the impossible."
+
+## What We Do
+
+- Hardware prototyping and development
+- Software engineering and open source contributions
+- Experimental tech projects
+- Creative technology exploration
+
+## Projects
+
+Our portfolio showcases various experimental projects spanning hardware, software, and creative technology. Each project represents our commitment to pushing boundaries and having fun while doing it.
+
+## Contact
+
+- Website: https://impossiblelabs.xyz
+- Author: OxMarco
+- GitHub: https://github.com/OxMarco
+
+## Technical Stack
+
+### Languages
+C/C++, Typescript, Javascript, Python, Solidity, PHP
+
+### Frameworks and Tools
+React, NestJS, NextJS, Flask, Arduino, Foundry, Laravel
+
+## License
+
+Projects are open source unless otherwise specified.

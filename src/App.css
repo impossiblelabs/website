@@ -1,0 +1,101 @@
+/* Gallery grid responsive layout */
+.gallery-item {
+  width: 25%;
+  height: calc(40vh - 2rem);
+  min-height: 20rem;
+  opacity: 0;
+  animation: fadeIn 1.25s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive breakpoints matching original */
+@media screen and (max-width: 1680px) {
+  .gallery-item {
+    width: 33.33333%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .gallery-item {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .gallery-item {
+    height: calc(28.57vh - 1.33rem);
+    min-height: 18rem;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .gallery-item {
+    height: calc(40vh - 2rem);
+    min-height: 18rem;
+    width: 100%;
+  }
+}
+
+/* Prose customization for markdown */
+.prose h1 {
+  display: none; /* Hide H1 since we show title in header */
+}
+
+.prose table {
+  width: 100%;
+}
+
+.prose th,
+.prose td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prose pre {
+  overflow-x: auto;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1c1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #34363b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Project modal scroll fix */
+[data-slot="dialog-content"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.project-modal-content {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+}
