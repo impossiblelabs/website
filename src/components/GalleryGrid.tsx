@@ -22,13 +22,13 @@ export function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
             style={{ backgroundImage: `url(${project.thumbnail})` }}
           />
-          
+
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-          
+
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-[#34a58e]/0 group-hover:bg-[#34a58e]/20 transition-colors duration-300" />
-          
+
           {/* Title */}
           <h2 className="absolute bottom-4 left-5 md:bottom-6 md:left-7 font-brand text-white text-xs md:text-sm uppercase tracking-widest z-10">
             {project.title}

@@ -34,11 +34,13 @@ export function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
               <div>
                 <SheetHeader className="mb-6 text-left">
                   <SheetTitle className="font-heading text-white text-lg md:text-xl tracking-wide italic">
-                    "Only those who attempt the absurd will achieve the impossible." - M.C. Escher
+                    "Only those who attempt the absurd will achieve the
+                    impossible." - M.C. Escher
                   </SheetTitle>
                 </SheetHeader>
                 <p className="font-body text-gray-400 leading-relaxed mb-8">
-                  A hardware and software studio turning wild ideas into real products. Open source by default.
+                  A hardware and software studio turning wild ideas into real
+                  products. Open source by default.
                 </p>
 
                 <div className="mb-8">
@@ -47,9 +49,21 @@ export function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
                   </h3>
                   <div className="flex gap-4">
                     {[
-                      { icon: Twitter, label: "Twitter/X", href: "https://x.com/OxMarco_" },
-                      { icon: Github, label: "GitHub", href: "https://github.com/OxMarco" },
-                      { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/grcasanova/" },
+                      {
+                        icon: Twitter,
+                        label: "Twitter/X",
+                        href: "https://x.com/OxMarco_",
+                      },
+                      {
+                        icon: Github,
+                        label: "GitHub",
+                        href: "https://github.com/OxMarco",
+                      },
+                      {
+                        icon: Linkedin,
+                        label: "LinkedIn",
+                        href: "https://linkedin.com/in/grcasanova/",
+                      },
                     ].map(({ icon: Icon, label, href }) => (
                       <a
                         key={label}
@@ -65,9 +79,7 @@ export function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
                   </div>
                 </div>
 
-                <p className="font-body text-gray-500 text-sm">
-                  By OxMarco
-                </p>
+                <p className="font-body text-gray-500 text-sm">By OxMarco</p>
               </div>
 
               {/* Right column - Contact form */}

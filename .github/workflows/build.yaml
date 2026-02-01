@@ -2,9 +2,9 @@ name: Build and deploy website
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
   workflow_dispatch:
 
 # Allow write so we can push to gh-pages
