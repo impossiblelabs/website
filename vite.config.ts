@@ -5,16 +5,22 @@ import tailwindcss from "@tailwindcss/vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/',
   plugins: [
     tailwindcss(),
     react({
       babel: {
         plugins: [['babel-plugin-react-compiler']],
       },
-    })],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
 })
