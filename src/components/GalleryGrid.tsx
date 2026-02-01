@@ -10,7 +10,7 @@ export function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
     <main className="flex flex-wrap pb-16 md:pb-20">
       {projects.map((project, index) => (
         <article
-          key={project.id}
+          key={index}
           className="gallery-item relative overflow-hidden cursor-pointer group"
           style={{
             animationDelay: `${0.65 + index * 0.15}s`,
@@ -20,7 +20,7 @@ export function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
           {/* Background image */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{ backgroundImage: `url(${project.thumbnail})` }}
+            style={{ backgroundImage: `url(${project.image})` }}
           />
 
           {/* Gradient overlay */}
@@ -29,10 +29,18 @@ export function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-[#34a58e]/0 group-hover:bg-[#34a58e]/20 transition-colors duration-300" />
 
-          {/* Title */}
-          <h2 className="absolute bottom-4 left-5 md:bottom-6 md:left-7 font-brand text-white text-xs md:text-sm uppercase tracking-widest z-10">
-            {project.title}
-          </h2>
+          {/* Blurred backdrop - full width at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 backdrop-blur-sm bg-black/10" />
+
+          {/* Title and Description */}
+          <div className="absolute bottom-4 left-5 md:bottom-3 md:left-7 z-10">
+            <h2 className="font-brand text-white text-xs md:text-sm uppercase tracking-widest">
+              {project.title}
+            </h2>
+            <p className="font-body text-white/70 text-xs md:text-sm mt-1">
+              {project.description}
+            </p>
+          </div>
         </article>
       ))}
     </main>
