@@ -6,6 +6,14 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+    {
+    title: "Lyft",
+    description: "A gym tracker device for power lifters",
+    image:
+      "https://github.com/OxMarco/Lyft/blob/master/header.jpg?raw=true",
+    markdown:
+      "https://raw.githubusercontent.com/OxMarco/Lyft/refs/heads/master/README.md",
+  },
   {
     title: "Portable BadUSD",
     description:
@@ -39,13 +47,5 @@ export const projects: Project[] = [
       "https://raw.githubusercontent.com/grcasanova/Talker/master/logo.png",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Talker/refs/heads/master/README.md",
-  },
-  {
-    title: "AI dating helper",
-    description: "Automate dating apps with AI (Tinder and Grindr)",
-    image:
-      "https://github.com/OxMarco/AI-dating-helper/blob/master/header.png?raw=true",
-    markdown:
-      "https://raw.githubusercontent.com/OxMarco/AI-dating-helper/refs/heads/master/README.md",
   },
 ];
