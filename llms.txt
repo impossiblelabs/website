@@ -22,6 +22,7 @@ Our portfolio showcases various experimental projects spanning hardware, softwar
 - Website: https://impossiblelabs.xyz
 - Author: OxMarco
 - GitHub: https://github.com/OxMarco
+- Company Github: https://github.com/impossiblelabs
 
 ## Technical Stack
 
