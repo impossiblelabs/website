@@ -120,8 +120,13 @@ export function AboutPanel({ isOpen, onClose }: AboutPanelProps) {
                       },
                       {
                         icon: Github,
-                        label: "GitHub",
+                        label: "GitHub personal",
                         href: "https://github.com/OxMarco",
+                      },
+                      {
+                        icon: Github,
+                        label: "GitHub company",
+                        href: "https://github.com/impossiblelabs",
                       },
                       {
                         icon: Linkedin,

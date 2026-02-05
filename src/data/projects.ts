@@ -3,16 +3,18 @@ export type Project = {
   description: string;
   image: string;
   markdown: string;
+  github: string;
+  website?: string;
 };
 
 export const projects: Project[] = [
-    {
+  {
     title: "Lyft",
     description: "A gym tracker device for power lifters",
-    image:
-      "https://github.com/OxMarco/Lyft/blob/master/header.jpg?raw=true",
+    image: "https://github.com/OxMarco/Lyft/blob/master/header.jpg?raw=true",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Lyft/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/Lyft",
   },
   {
     title: "Portable BadUSD",
@@ -22,6 +24,7 @@ export const projects: Project[] = [
       "https://www.csoonline.com/wp-content/uploads/2023/06/malicious_usb_memory_stick_thumb_drive_with_skull_icon_malware_by_m-a-u_gettyimages-882310638_2400x1600-100836763-orig.jpg?quality=50&strip=all",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/BadUSB/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/BadUSB",
   },
   {
     title: "Micro GSM Network",
@@ -31,6 +34,7 @@ export const projects: Project[] = [
       "https://github.com/OxMarco/Micro-GSM-Network/blob/master/header.png?raw=true",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Micro-GSM-Network/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/Micro-GSM-Network",
   },
   {
     title: "Ethereum LoRa",
@@ -39,6 +43,7 @@ export const projects: Project[] = [
       "https://github.com/OxMarco/ethereum-lora/blob/master/header.png?raw=true",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/ethereum-lora/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/ethereum-lora",
   },
   {
     title: "LoRa P2P Network",
@@ -47,5 +52,6 @@ export const projects: Project[] = [
       "https://raw.githubusercontent.com/grcasanova/Talker/master/logo.png",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Talker/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/Talker",
   },
 ];

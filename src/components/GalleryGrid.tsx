@@ -30,7 +30,7 @@ export function GalleryGrid({ projects, onProjectClick }: GalleryGridProps) {
           <div className="absolute inset-0 bg-[#34a58e]/0 group-hover:bg-[#34a58e]/20 transition-colors duration-300" />
 
           {/* Blurred backdrop - full width at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 backdrop-blur-sm bg-black/10" />
+          <div className="absolute bottom-0 left-0 right-0 sm:h-25 h-20 backdrop-blur-sm bg-black/10" />
 
           {/* Title and Description */}
           <div className="absolute bottom-4 left-5 md:bottom-3 md:left-7 z-10">
