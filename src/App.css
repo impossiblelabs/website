@@ -99,3 +99,20 @@
   overflow-y: auto !important;
   min-height: 0 !important;
 }
+
+/* Featured products: three across, taller than the experiments */
+.gallery-item-featured {
+  width: 33.33333%;
+  height: calc(55vh - 2rem);
+  min-height: 24rem;
+  opacity: 0;
+  animation: fadeIn 1.25s ease-in-out forwards;
+}
+
+@media screen and (max-width: 980px) {
+  .gallery-item-featured {
+    width: 100%;
+    height: calc(45vh - 2rem);
+    min-height: 20rem;
+  }
+}

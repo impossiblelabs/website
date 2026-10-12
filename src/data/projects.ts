@@ -3,10 +3,60 @@ export type Project = {
   description: string;
   image: string;
   markdown: string;
-  github: string;
+  github?: string;
   website?: string;
+  appStore?: string;
+  googlePlay?: string;
+  /** Short platform/status labels shown on the card */
+  tags?: string[];
+  /** Brand background behind images that should be shown whole, not cropped */
+  background?: string;
 };
 
+// Shipped products with real users, shown first and larger
+export const products: Project[] = [
+  {
+    title: "CashOrTrash",
+    description:
+      "Guess what stuff costs. Bet a price range, not a number: the tighter the range, the bigger the score",
+    image: "/projects/cashortrash.png",
+    background: "#f6eadb",
+    markdown:
+      "https://raw.githubusercontent.com/OxMarco/CashOrTrash/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/CashOrTrash",
+    website: "https://cashortrash.fun",
+    appStore: "https://apps.apple.com/app/id6805992515",
+    googlePlay:
+      "https://play.google.com/store/apps/details?id=fun.cashortrash.app",
+    tags: ["Game", "iOS", "Android"],
+  },
+  {
+    title: "Quiesco",
+    description:
+      "An open-source bedroom monitor for CO₂, temperature, humidity, light and noise",
+    image: "/projects/quiesco.png",
+    background: "#fbfbfc",
+    markdown:
+      "https://raw.githubusercontent.com/OxMarco/Quiesco/refs/heads/master/README.md",
+    github: "https://github.com/OxMarco/Quiesco",
+    website: "https://quiesco.rest",
+    tags: ["Open hardware", "Firmware", "Companion app"],
+  },
+  {
+    title: "BlueBaħar",
+    description:
+      "Know before you go out at sea: notices to mariners, hazards and weather around Malta on one map",
+    image: "/projects/bluebahar.png",
+    background: "#78c3ea",
+    markdown: "/projects/bluebahar.md",
+    website: "https://bluebahar.com",
+    appStore: "https://apps.apple.com/mt/app/blueba%C4%A7ar/id6766516415",
+    googlePlay: "https://play.google.com/store/apps/details?id=com.bluebahar.mt",
+    tags: ["Maps", "iOS", "Android"],
+  },
+];
+
+// Hardware and software experiments
 export const projects: Project[] = [
   {
     title: "Lyft",
