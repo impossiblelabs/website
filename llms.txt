@@ -13,9 +13,15 @@ ImpossibleLabs is a tech studio by OxMarco. We turn absurd ideas into reality, c
 - Experimental tech projects
 - Creative technology exploration
 
-## Projects
+## Products
 
-Our portfolio showcases various experimental projects spanning hardware, software, and creative technology. Each project represents our commitment to pushing boundaries and having fun while doing it.
+- [CashOrTrash](https://cashortrash.fun): a guess-the-price game for iOS and Android. Bet a price range, not a number; the tighter the range, the bigger the score. Daily challenge, head-to-head matches and quick rounds. Server code: https://github.com/OxMarco/CashOrTrash
+- [Quiesco](https://quiesco.rest): an open-source bedroom environment monitor that measures CO₂, temperature, humidity, light and noise, with an e-ink screen and a Bluetooth companion app. No Wi-Fi, no cloud. Hardware, firmware and app: https://github.com/OxMarco/Quiesco
+- [BlueBaħar](https://bluebahar.com): notices to mariners, hazards, restricted zones, protected areas and weather forecasts around Malta on one map. Free on iOS and Android, no account, no ads.
+
+## Experiments
+
+Hardware and radio projects, all open source: Lyft (gym tracker for powerlifters), Portable BadUSB (ATtiny85 HID exploit), Micro GSM Network (2G with LimeNET and osmocom), Ethereum LoRa (long-range radio interface for Ethereum nodes) and a LoRa P2P network.
 
 ## Contact
 
