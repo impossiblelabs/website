@@ -7,12 +7,12 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { Apple, Github, Globe, Play } from "lucide-react";
+import { Pill } from "@/components/Pill";
 import type { Project } from "@/data/projects";
 
 interface ProjectModalProps {
@@ -21,50 +21,16 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-// Transform relative URLs to absolute GitHub raw URLs
+// Relative README paths resolve against the README's own location
 function transformImageUrl(src: string, markdownUrl: string): string {
-  // Already absolute URL
   if (src.startsWith("http://") || src.startsWith("https://")) {
     return src;
   }
-
-  // Get base URL from markdown URL (remove filename)
   const baseUrl = markdownUrl.substring(0, markdownUrl.lastIndexOf("/") + 1);
-
-  // Handle relative paths starting with ./
   if (src.startsWith("./")) {
     return baseUrl + src.slice(2);
   }
-
-  // Handle other relative paths
   return baseUrl + src;
-}
-
-function LinkButton({
-  href,
-  primary = false,
-  children,
-}: {
-  href: string;
-  primary?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <Button
-      asChild
-      variant="outline"
-      size="sm"
-      className={
-        primary
-          ? "border-[#34a58e] bg-[#34a58e] text-white hover:bg-[#47c5ab] hover:border-[#47c5ab] hover:text-white"
-          : "border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white"
-      }
-    >
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
-    </Button>
-  );
 }
 
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
@@ -82,13 +48,12 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
       try {
         const response = await fetch(project.markdown);
         if (response.ok) {
-          const text = await response.text();
-          setMarkdownContent(text);
+          setMarkdownContent(await response.text());
         } else {
-          setMarkdownContent("Failed to load content.");
+          setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README.");
         }
       } catch {
-        setMarkdownContent("Failed to load content.");
+        setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README.");
       } finally {
         setIsLoading(false);
       }
@@ -97,42 +62,36 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
     fetchMarkdown();
   }, [project?.markdown, isOpen]);
 
-  // Custom components for ReactMarkdown with image URL transformation and heading styles
   const markdownComponents: Components = useMemo(
     () => ({
       h1: ({ children }) => (
-        <h1 className="font-brand text-2xl text-white tracking-wide mt-8 mb-4 first:mt-0">
+        <h1 className="mt-8 mb-3 font-display text-[22px] font-semibold tracking-[-0.02em] text-paper first:mt-0">
           {children}
         </h1>
       ),
       h2: ({ children }) => (
-        <h2 className="font-brand text-xl text-white tracking-wide mt-8 mb-4 pb-2 border-b border-white/10">
+        <h2 className="mt-8 mb-3 font-display text-[18px] font-semibold tracking-[-0.02em] text-paper">
           {children}
         </h2>
       ),
       h3: ({ children }) => (
-        <h3 className="font-brand text-lg text-white tracking-wide mt-6 mb-3">
+        <h3 className="mt-6 mb-2 font-display text-[16px] font-semibold tracking-[-0.01em] text-paper">
           {children}
         </h3>
       ),
       h4: ({ children }) => (
-        <h4 className="font-brand text-base text-white tracking-wide mt-4 mb-2">
+        <h4 className="mt-5 mb-2 text-base font-semibold text-paper">
           {children}
         </h4>
       ),
-      img: ({ src, alt, ...props }) => {
-        const transformedSrc = src
-          ? transformImageUrl(src, project?.markdown || "")
-          : "";
-        return (
-          <img
-            src={transformedSrc}
-            alt={alt || ""}
-            className="rounded-lg max-w-full"
-            {...props}
-          />
-        );
-      },
+      img: ({ src, alt, ...props }) => (
+        <img
+          src={src ? transformImageUrl(src, project?.markdown || "") : ""}
+          alt={alt || ""}
+          loading="lazy"
+          {...props}
+        />
+      ),
       source: ({ srcSet, ...props }) => (
         <source
           srcSet={
@@ -145,18 +104,17 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
         const match = /language-(\w+)/.exec(className || "");
         const codeString = String(children).replace(/\n$/, "");
 
-        // Check if it's a code block (has language) or inline code
         if (match) {
           return (
             <SyntaxHighlighter
               style={oneDark}
               language={match[1]}
               PreTag="div"
-              className="rounded-lg !bg-[#242629] !my-4 text-sm"
+              className="my-4 rounded-xl border border-line text-sm"
               customStyle={{
                 margin: 0,
-                padding: "1rem",
-                background: "#242629",
+                padding: "1rem 1.1rem",
+                background: "#0b2a4a",
               }}
             >
               {codeString}
@@ -164,20 +122,13 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           );
         }
 
-        // Inline code
         return (
-          <code
-            className="text-[#34a58e] bg-white/5 px-1.5 py-0.5 rounded text-sm font-mono"
-            {...props}
-          >
+          <code className="font-mono" {...props}>
             {children}
           </code>
         );
       },
-      pre: ({ children }) => {
-        // Just pass through - the code component handles the styling
-        return <>{children}</>;
-      },
+      pre: ({ children }) => <>{children}</>,
     }),
     [project?.markdown],
   );
@@ -186,65 +137,70 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl h-[90vh] p-0 bg-[#1a1c1e] border-white/10 overflow-hidden">
-        {/* Single scrollable container for everything */}
-        <div className="h-full" style={{ overflowY: "auto" }}>
-          {/* Content */}
-          <div className="px-6 pb-6">
-            <DialogHeader className="pt-4 pb-4">
-              <DialogTitle className="font-brand text-xl md:text-2xl text-white tracking-wide">
-                {project.title}
-              </DialogTitle>
-              <p className="font-body text-white/70 text-sm">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap justify-center gap-3 pt-3">
-                {project.website && (
-                  <LinkButton href={project.website} primary>
-                    <Globe className="w-4 h-4 mr-2" aria-hidden="true" />
-                    Website
-                  </LinkButton>
-                )}
-                {project.appStore && (
-                  <LinkButton href={project.appStore}>
-                    <Apple className="w-4 h-4 mr-2" aria-hidden="true" />
-                    App Store
-                  </LinkButton>
-                )}
-                {project.googlePlay && (
-                  <LinkButton href={project.googlePlay}>
-                    <Play className="w-4 h-4 mr-2" aria-hidden="true" />
-                    Google Play
-                  </LinkButton>
-                )}
-                {project.github && (
-                  <LinkButton href={project.github}>
-                    <Github className="w-4 h-4 mr-2" aria-hidden="true" />
-                    GitHub
-                  </LinkButton>
-                )}
-              </div>
-            </DialogHeader>
-
-            <article className="font-body text-white prose prose-invert prose-sm md:prose-base max-w-none prose-p:text-white prose-li:text-white prose-strong:text-white prose-headings:font-brand prose-headings:text-white prose-headings:tracking-wide prose-h1:text-2xl prose-h2:text-xl prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-2 prose-a:text-[#34a58e] prose-code:text-[#34a58e] prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-[#242629] prose-pre:text-white prose-blockquote:border-l-[#34a58e] prose-blockquote:text-white/80 prose-table:text-sm prose-th:text-left prose-th:text-white prose-td:text-white prose-td:py-2">
-              {isLoading ? (
-                <div className="space-y-3">
-                  <Skeleton className="h-4 w-full bg-white/10" />
-                  <Skeleton className="h-4 w-3/4 bg-white/10" />
-                  <Skeleton className="h-4 w-5/6 bg-white/10" />
-                  <Skeleton className="h-4 w-2/3 bg-white/10" />
-                </div>
-              ) : (
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
-                  components={markdownComponents}
-                >
-                  {markdownContent}
-                </ReactMarkdown>
-              )}
-            </article>
+      <DialogContent className="flex h-[90vh] max-w-3xl flex-col gap-0 overflow-hidden rounded-3xl border-line bg-ink-2 p-0 sm:max-w-3xl">
+        {project.background && (
+          <div
+            className="flex h-44 flex-none items-center justify-center p-5 md:h-56"
+            style={{ background: project.background }}
+          >
+            <img
+              src={project.image}
+              alt=""
+              className="max-h-full max-w-full object-contain"
+            />
           </div>
+        )}
+
+        <DialogHeader className="flex-none gap-2.5 border-b border-line px-6 pt-6 pb-5 text-left md:px-8">
+          <DialogTitle className="font-display text-[24px] font-bold tracking-[-0.03em] text-paper md:text-[26px]">
+            {project.title}
+          </DialogTitle>
+          <DialogDescription className="text-[17px] leading-relaxed text-mist">
+            {project.description}
+          </DialogDescription>
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {project.website && (
+              <Pill href={project.website} primary target="_blank" rel="noopener noreferrer">
+                Website
+              </Pill>
+            )}
+            {project.appStore && (
+              <Pill href={project.appStore} target="_blank" rel="noopener noreferrer">
+                App Store
+              </Pill>
+            )}
+            {project.googlePlay && (
+              <Pill href={project.googlePlay} target="_blank" rel="noopener noreferrer">
+                Google Play
+              </Pill>
+            )}
+            {project.github && (
+              <Pill href={project.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </Pill>
+            )}
+          </div>
+        </DialogHeader>
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6 md:px-8">
+          {isLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="h-4 w-2/3" />
+            </div>
+          ) : (
+            <article className="readme">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                components={markdownComponents}
+              >
+                {markdownContent}
+              </ReactMarkdown>
+            </article>
+          )}
         </div>
       </DialogContent>
     </Dialog>

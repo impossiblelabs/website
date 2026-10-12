@@ -11,6 +11,8 @@ export type Project = {
   tags?: string[];
   /** Brand background behind images that should be shown whole, not cropped */
   background?: string;
+  /** How the card image fills its area; "contain" (default) shows the whole image on the brand background */
+  imageFit?: "cover" | "contain";
 };
 
 // Shipped products with real users, shown first and larger
@@ -48,6 +50,7 @@ export const products: Project[] = [
       "Know before you go out at sea: notices to mariners, hazards and weather around Malta on one map",
     image: "/projects/bluebahar.png",
     background: "#78c3ea",
+    imageFit: "cover",
     markdown: "/projects/bluebahar.md",
     website: "https://bluebahar.com",
     appStore: "https://apps.apple.com/mt/app/blueba%C4%A7ar/id6766516415",
@@ -61,13 +64,13 @@ export const projects: Project[] = [
   {
     title: "Lyft",
     description: "A gym tracker device for power lifters",
-    image: "https://github.com/OxMarco/Lyft/blob/master/header.jpg?raw=true",
+    image: "https://raw.githubusercontent.com/OxMarco/Lyft/master/header.jpg",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Lyft/refs/heads/master/README.md",
     github: "https://github.com/OxMarco/Lyft",
   },
   {
-    title: "Portable BadUSD",
+    title: "Portable BadUSB",
     description:
       "Personal implementation of the BadUSB exploit with an Atmel 8-bit AVR ATTiny85 acting as a HID keyboard",
     image:
@@ -81,7 +84,7 @@ export const projects: Project[] = [
     description:
       "Basic 2G sms and voice calls with a LimeNET Micro v2.1 and the osmocom nitb stack",
     image:
-      "https://github.com/OxMarco/Micro-GSM-Network/blob/master/header.png?raw=true",
+      "https://raw.githubusercontent.com/OxMarco/Micro-GSM-Network/master/header.png",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Micro-GSM-Network/refs/heads/master/README.md",
     github: "https://github.com/OxMarco/Micro-GSM-Network",
@@ -90,7 +93,7 @@ export const projects: Project[] = [
     title: "Ethereum LoRa",
     description: "A long-range low-power radio interface for Ethereum nodes",
     image:
-      "https://github.com/OxMarco/ethereum-lora/blob/master/header.png?raw=true",
+      "https://raw.githubusercontent.com/OxMarco/ethereum-lora/master/header.png",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/ethereum-lora/refs/heads/master/README.md",
     github: "https://github.com/OxMarco/ethereum-lora",
@@ -99,7 +102,7 @@ export const projects: Project[] = [
     title: "LoRa P2P Network",
     description: "Long range radio communication system using LoRa",
     image:
-      "https://raw.githubusercontent.com/grcasanova/Talker/master/logo.png",
+      "https://raw.githubusercontent.com/OxMarco/Talker/master/logo.png",
     markdown:
       "https://raw.githubusercontent.com/OxMarco/Talker/refs/heads/master/README.md",
     github: "https://github.com/OxMarco/Talker",

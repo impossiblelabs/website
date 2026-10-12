@@ -1,65 +1,39 @@
 import { useState, useCallback } from "react";
 import { Header } from "@/components/Header";
-import { GalleryGrid } from "@/components/GalleryGrid";
+import { Hero } from "@/components/Hero";
+import { Products } from "@/components/Products";
+import { Lab } from "@/components/Lab";
+import { About } from "@/components/About";
+import { Footer } from "@/components/Footer";
 import { ProjectModal } from "@/components/ProjectModal";
-import { AboutPanel } from "@/components/AboutPanel";
 import { products, projects, type Project } from "@/data/projects";
 import "./App.css";
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleProjectClick = useCallback((project: Project) => {
+  const showProject = useCallback((project: Project) => {
     setSelectedProject(project);
-    setIsProjectModalOpen(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setIsProjectModalOpen(false);
+    setIsModalOpen(true);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#242629]">
-      <main className="pb-16 md:pb-20">
-        <SectionLabel title="Products" subtitle="Shipped and in people's hands" />
-        <GalleryGrid
-          projects={products}
-          onProjectClick={handleProjectClick}
-          featured
-        />
-
-        <SectionLabel title="Experiments" subtitle="Hardware hacks and prototypes" />
-        <GalleryGrid
-          projects={projects}
-          onProjectClick={handleProjectClick}
-          delayOffset={products.length}
-        />
+    <div className="min-h-screen bg-ink text-paper">
+      <Header />
+      <main>
+        <Hero />
+        <Products items={products} onSelect={showProject} />
+        <Lab items={projects} onSelect={showProject} />
+        <About />
       </main>
-
-      <Header onAboutClick={() => setIsAboutOpen(true)} />
+      <Footer />
 
       <ProjectModal
         project={selectedProject}
-        isOpen={isProjectModalOpen}
-        onClose={handleCloseModal}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
-
-      <AboutPanel isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
-    </div>
-  );
-}
-
-function SectionLabel({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <div className="flex items-baseline gap-3 px-5 md:px-7 py-4 border-b border-white/5">
-      <h2 className="font-brand text-white text-xs md:text-sm uppercase tracking-widest">
-        {title}
-      </h2>
-      <span className="font-body text-gray-500 text-xs md:text-sm">
-        {subtitle}
-      </span>
     </div>
   );
 }
