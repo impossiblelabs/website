@@ -1,3 +1,4 @@
+import { Apple, Github, Play } from "lucide-react";
 import { Pill } from "@/components/Pill";
 import { SectionHeading } from "@/components/SectionHeading";
 import type { Project } from "@/data/projects";
@@ -9,11 +10,11 @@ interface ProductsProps {
 
 export function Products({ items, onSelect }: ProductsProps) {
   return (
-    <section id="products" className="scroll-mt-16 border-t border-line">
+    <section id="products" className="scroll-mt-16 md:scroll-mt-[72px] border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-14 md:px-10 md:py-20">
         <SectionHeading
           title="Products"
-          blurb="Shipped, and in people’s hands."
+          blurb="Shipped, and in people’s hands"
         />
         <div className="grid gap-6 md:grid-cols-3">
           {items.map((project) => (
@@ -36,21 +37,17 @@ function ProductCard({
   project: Project;
   onSelect: (project: Project) => void;
 }) {
-  const cover = project.imageFit === "cover";
-
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-[20px] border border-paper/8 bg-ink-2 transition-colors hover:border-paper/25">
       <div
-        className={`flex h-[236px] items-center justify-center overflow-hidden ${cover ? "" : "p-6"}`}
+        className="flex h-[236px] items-center justify-center overflow-hidden p-6"
         style={{ background: project.background }}
       >
         <img
           src={project.image}
           alt=""
           loading="lazy"
-          className={`transition-transform duration-500 group-hover:scale-[1.03] ${
-            cover ? "h-full w-full object-cover" : "max-h-full max-w-full object-contain"
-          }`}
+          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
         />
       </div>
 
@@ -83,29 +80,53 @@ function ProductCard({
           {project.description}
         </p>
 
-        <div className="relative z-10 mt-2 flex flex-wrap gap-2">
+        <div className="relative z-10 mt-auto flex flex-wrap gap-2 pt-2">
           {project.website && (
             <Pill href={project.website} primary target="_blank" rel="noopener noreferrer">
               Website
             </Pill>
           )}
+          {/* Icon buttons keep every card on one row; the popup spells them out */}
           {project.appStore && (
-            <Pill href={project.appStore} target="_blank" rel="noopener noreferrer">
-              App Store
-            </Pill>
+            <IconPill href={project.appStore} label="App Store">
+              <Apple className="h-[18px] w-[18px]" aria-hidden="true" />
+            </IconPill>
           )}
           {project.googlePlay && (
-            <Pill href={project.googlePlay} target="_blank" rel="noopener noreferrer">
-              Google Play
-            </Pill>
+            <IconPill href={project.googlePlay} label="Google Play">
+              <Play className="h-[17px] w-[17px]" aria-hidden="true" />
+            </IconPill>
           )}
           {project.github && (
-            <Pill href={project.github} target="_blank" rel="noopener noreferrer">
-              GitHub
-            </Pill>
+            <IconPill href={project.github} label="GitHub">
+              <Github className="h-[18px] w-[18px]" aria-hidden="true" />
+            </IconPill>
           )}
         </div>
       </div>
     </article>
+  );
+}
+
+function IconPill({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Pill
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      title={label}
+      className="w-11 justify-center px-0 md:w-9 md:px-0"
+    >
+      {children}
+    </Pill>
   );
 }

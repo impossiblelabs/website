@@ -11,7 +11,7 @@ export function Footer() {
           </span>
         </div>
         <p className="text-sm text-mist">
-          Made by OxMarco. Open source unless a project says otherwise.
+          Open source unless a project says otherwise
         </p>
       </div>
     </footer>

@@ -10,17 +10,17 @@ interface LabProps {
 
 export function Lab({ items, onSelect }: LabProps) {
   return (
-    <section id="lab" className="scroll-mt-16 border-t border-line">
+    <section id="lab" className="scroll-mt-16 md:scroll-mt-[72px] border-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-14 md:px-10 md:py-20">
         <SectionHeading
           title="From the lab"
-          blurb="Hardware hacks and prototypes. Code, schematics and notes are on GitHub."
+          blurb="Hardware hacks and prototypes. Code, schematics and notes are on GitHub"
         />
-        <ul className="border-t border-line">
+        <ul className="border-t border-line lg:grid lg:grid-cols-2 lg:gap-x-10">
           {items.map((project) => (
             <li
               key={project.title}
-              className="group relative -mx-3 grid grid-cols-[56px_minmax(0,1fr)] items-center gap-x-5 gap-y-3 rounded-[14px] border-b border-line px-3 py-5 transition-colors hover:bg-[#10355a] md:grid-cols-[72px_minmax(0,1fr)_auto] md:gap-6"
+              className="group relative -mx-3 grid lg:odd:last:col-span-2 grid-cols-[56px_minmax(0,1fr)] items-center gap-x-5 gap-y-3 rounded-[14px] border-b border-line px-3 py-5 transition-colors hover:bg-[#10355a] md:grid-cols-[72px_minmax(0,1fr)_auto] md:gap-6"
             >
               <Thumb src={project.image} title={project.title} />
 
@@ -39,12 +39,13 @@ export function Lab({ items, onSelect }: LabProps) {
                 </p>
               </div>
 
+              {/* Phones open the row's popup instead, which carries the GitHub link */}
               {project.github && (
                 <Pill
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative z-10 col-start-2 justify-self-start md:col-start-auto"
+                  className="relative z-10 hidden md:inline-flex"
                 >
                   GitHub
                 </Pill>

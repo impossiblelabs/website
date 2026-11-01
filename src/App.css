@@ -163,19 +163,11 @@
   text-align: center;
 }
 
-/* Scrollbars */
+/* Hide scrollbars everywhere; scrolling still works with wheel, touch and keys */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #0b2a4a;
-}
-::-webkit-scrollbar-thumb {
-  background: #1b4f80;
-  border-radius: 6px;
-  border: 2px solid #0b2a4a;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2a6aa6;
+  display: none;
 }

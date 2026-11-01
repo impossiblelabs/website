@@ -35,21 +35,21 @@ const SOCIAL = [
 
 export function About() {
   return (
-    <section id="about" className="scroll-mt-16 border-t border-line">
+    <section id="about" className="scroll-mt-16 md:scroll-mt-[72px] border-t border-line">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 md:grid-cols-2 md:gap-20 md:px-10 md:py-20">
         <div className="flex flex-col gap-5">
           <h2 className="font-display text-[26px] font-bold tracking-[-0.03em] md:text-[34px]">
             About
           </h2>
           <p className="max-w-[52ch] text-lg leading-relaxed text-body">
-            ImpossibleLabs is where OxMarco builds the things that sound like
-            a bad idea at first: a bedroom sensor with an e-ink face, a game
-            about guessing prices, a sea map for one small country.
+            Impossible Labs takes ideas that sound unreasonable at first and
+            turns them into products people actually use. One small studio
+            covers the whole stack, from circuit boards and firmware to mobile
+            apps and the servers behind them
           </p>
           <p className="max-w-[52ch] text-lg leading-relaxed text-body">
-            Hardware, firmware and apps are open source unless a project says
-            otherwise. Say hello if you want to collaborate, you built one of
-            these, or something is broken.
+            Write if you want to build something together, made one of these
+            yourself, or found something broken
           </p>
           <ul className="mt-2 flex flex-wrap gap-2">
             {SOCIAL.map(({ label, href, Icon }) => (
@@ -58,7 +58,7 @@ export function About() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-10 items-center gap-2 rounded-full border border-paper/20 px-3.5 text-sm font-semibold text-paper transition-colors hover:bg-ink-3"
+                  className="inline-flex h-11 items-center gap-2 rounded-full border border-paper/20 px-3.5 text-sm font-semibold text-paper transition-colors hover:bg-ink-3"
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />
                   {label}
@@ -82,16 +82,23 @@ function ContactForm() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const [error, setError] = useState("");
+  const [missing, setMissing] = useState<string[]>([]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    const empty = Object.entries({ name, email, message })
+      .filter(([, value]) => !value.trim())
+      .map(([field]) => field);
+    if (empty.length > 0) {
+      setMissing(empty);
       setStatus("error");
-      setError("Fill in your name, email and a message.");
+      setError(`Fill in your ${listFields(empty)}`);
+      document.getElementById(`contact-${empty[0]}`)?.focus();
       return;
     }
 
+    setMissing([]);
     setStatus("sending");
     setError("");
 
@@ -108,17 +115,32 @@ function ContactForm() {
     } catch (err) {
       console.error("Email send failed:", err);
       setStatus("error");
-      setError("Sending failed. Try again in a moment, or reach out on GitHub.");
+      setError("Sending failed. Try again in a moment, or reach out on GitHub");
     }
   };
 
   const fieldClass =
-    "h-12 w-full rounded-xl border border-paper/15 bg-ink px-3.5 text-base text-paper transition-colors focus:border-accent focus:outline-none disabled:opacity-60";
+    "h-12 w-full rounded-xl border border-paper/15 bg-ink px-3.5 text-base text-paper transition-colors focus:border-accent focus:outline-none disabled:opacity-60 aria-invalid:border-[#ff9b9b]";
+
+  // Props shared by every field: required, flagged when left empty, tied to the status message
+  const fieldState = (field: string, value: string, setValue: (v: string) => void) => ({
+    required: true,
+    "aria-invalid": missing.includes(field) || undefined,
+    "aria-describedby": missing.includes(field) ? "contact-status" : undefined,
+    value,
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValue(e.target.value);
+      if (e.target.value.trim()) setMissing((m) => m.filter((f) => f !== field));
+    },
+    disabled: status === "sending",
+  });
 
   return (
     <form
+      id="contact"
+      noValidate
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 rounded-[20px] border border-paper/8 bg-ink-2 p-6 md:p-8"
+      className="scroll-mt-20 md:scroll-mt-24 flex flex-col gap-4 rounded-[20px] border border-paper/8 bg-ink-2 p-6 md:p-8"
     >
       <h3 className="mb-1 font-display text-[22px] font-bold tracking-[-0.02em]">
         Get in touch
@@ -135,9 +157,7 @@ function ContactForm() {
             type="text"
             autoComplete="name"
             placeholder="Ada"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            disabled={status === "sending"}
+            {...fieldState("name", name, setName)}
             className={fieldClass}
           />
         </div>
@@ -151,9 +171,7 @@ function ContactForm() {
             type="email"
             autoComplete="email"
             placeholder="ada@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={status === "sending"}
+            {...fieldState("email", email, setEmail)}
             className={fieldClass}
           />
         </div>
@@ -168,10 +186,8 @@ function ContactForm() {
           name="message"
           rows={5}
           placeholder="What are you building?"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={status === "sending"}
-          className="min-h-[140px] w-full resize-y rounded-xl border border-paper/15 bg-ink px-3.5 py-3 text-base leading-relaxed text-paper transition-colors focus:border-accent focus:outline-none disabled:opacity-60"
+          {...fieldState("message", message, setMessage)}
+          className="min-h-[140px] w-full resize-y rounded-xl border border-paper/15 bg-ink px-3.5 py-3 text-base leading-relaxed text-paper transition-colors focus:border-accent focus:outline-none disabled:opacity-60 aria-invalid:border-[#ff9b9b]"
         />
       </div>
 
@@ -191,21 +207,29 @@ function ContactForm() {
           )}
         </button>
 
-        <p className="text-sm" role="status" aria-live="polite">
+        <p id="contact-status" className="text-sm" role="status" aria-live="polite">
           {status === "sent" && (
             <span className="inline-flex items-center gap-1.5 text-accent">
               <Check className="h-4 w-4" aria-hidden="true" />
-              Sent. You’ll hear back soon.
+              Sent. You’ll hear back soon
             </span>
           )}
           {status === "error" && <span className="text-[#ff9b9b]">{error}</span>}
           {(status === "idle" || status === "sending") && (
-            <span className="text-mist">Replies usually take a few days.</span>
+            <span className="text-mist">Replies usually take a few days</span>
           )}
         </p>
       </div>
     </form>
   );
+}
+
+/** "name", "name and email", "name, email and a message" */
+function listFields(fields: string[]): string {
+  const words = fields.map((f) => (f === "message" ? "a message" : f));
+  return words.length === 1
+    ? words[0]
+    : `${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}`;
 }
 
 function XIcon({ className }: { className?: string }) {

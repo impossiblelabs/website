@@ -33,9 +33,38 @@ function transformImageUrl(src: string, markdownUrl: string): string {
   return baseUrl + src;
 }
 
+// READMEs usually open with a hero image; drop it when the popup already shows one
+const LEADING_IMAGE =
+  /^(?:\s*(?:<\/?(?:div|p)\b[^>]*>|#[^\n]*))*\s*((?:<picture\b[\s\S]*?<\/picture>|<img\b[^>]*>|!\[[^\]]*\]\([^)]*\))(?:\s*<br\s*\/?>)*)/;
+
+// Shield badges repeat the store and GitHub buttons in the popup header
+const BADGE_LINE =
+  /^[ \t]*(?:(?:\[!\[[^\]]*\]\(https:\/\/img\.shields\.io[^)]*\)\]\([^)]*\)|!\[[^\]]*\]\(https:\/\/img\.shields\.io[^)]*\))[ \t]*)+(?:<br\s*\/?>)?[ \t]*$\n?/gm;
+const LONE_BREAK = /^[ \t]*(?:<br\s*\/?>[ \t]*)+$\n?/gm;
+
+function stripBadges(markdown: string): string {
+  return markdown.replace(BADGE_LINE, "").replace(LONE_BREAK, "");
+}
+
+// Removing badges and the hero image can leave an empty wrapper and a divider at the top
+function tidyTop(markdown: string): string {
+  return markdown
+    .replace(/<(div|p)\b[^>]*>\s*<\/\1>/g, "")
+    .replace(/^\s*(?:(?:-{3,}|\*{3,})\s*)+/, "");
+}
+
+function stripLeadingImage(markdown: string): string {
+  const match = LEADING_IMAGE.exec(markdown);
+  if (!match) return markdown;
+  const end = match.index + match[0].length;
+  return markdown.slice(0, end - match[1].length) + markdown.slice(end);
+}
+
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const [markdownContent, setMarkdownContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const hasHeaderImage = Boolean(project?.background);
 
   useEffect(() => {
     if (!project?.markdown || !isOpen) {
@@ -48,19 +77,21 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
       try {
         const response = await fetch(project.markdown);
         if (response.ok) {
-          setMarkdownContent(await response.text());
+          const text = await response.text();
+          const trimmed = stripBadges(text);
+          setMarkdownContent(tidyTop(hasHeaderImage ? stripLeadingImage(trimmed) : trimmed));
         } else {
-          setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README.");
+          setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README");
         }
       } catch {
-        setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README.");
+        setMarkdownContent("The write-up could not be loaded. The GitHub link below has the full README");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMarkdown();
-  }, [project?.markdown, isOpen]);
+  }, [project?.markdown, isOpen, hasHeaderImage]);
 
   const markdownComponents: Components = useMemo(
     () => ({
@@ -138,69 +169,72 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="flex h-[90vh] max-w-3xl flex-col gap-0 overflow-hidden rounded-3xl border-line bg-ink-2 p-0 sm:max-w-3xl">
-        {project.background && (
-          <div
-            className="flex h-44 flex-none items-center justify-center p-5 md:h-56"
-            style={{ background: project.background }}
-          >
-            <img
-              src={project.image}
-              alt=""
-              className="max-h-full max-w-full object-contain"
-            />
-          </div>
-        )}
-
-        <DialogHeader className="flex-none gap-2.5 border-b border-line px-6 pt-6 pb-5 text-left md:px-8">
-          <DialogTitle className="font-display text-[24px] font-bold tracking-[-0.03em] text-paper md:text-[26px]">
-            {project.title}
-          </DialogTitle>
-          <DialogDescription className="text-[17px] leading-relaxed text-mist">
-            {project.description}
-          </DialogDescription>
-          <div className="mt-1.5 flex flex-wrap gap-2">
-            {project.website && (
-              <Pill href={project.website} primary target="_blank" rel="noopener noreferrer">
-                Website
-              </Pill>
-            )}
-            {project.appStore && (
-              <Pill href={project.appStore} target="_blank" rel="noopener noreferrer">
-                App Store
-              </Pill>
-            )}
-            {project.googlePlay && (
-              <Pill href={project.googlePlay} target="_blank" rel="noopener noreferrer">
-                Google Play
-              </Pill>
-            )}
-            {project.github && (
-              <Pill href={project.github} target="_blank" rel="noopener noreferrer">
-                GitHub
-              </Pill>
-            )}
-          </div>
-        </DialogHeader>
-
-        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6 md:px-8">
-          {isLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-5/6" />
-              <Skeleton className="h-4 w-2/3" />
+        {/* Image, title and write-up scroll together so short screens keep room to read */}
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          {project.background && (
+            <div
+              className="flex h-44 flex-none items-center justify-center p-5 md:h-56"
+              style={{ background: project.background }}
+            >
+              <img
+                src={project.image}
+                alt=""
+                className="max-h-full max-w-full object-contain"
+              />
             </div>
-          ) : (
-            <article className="readme">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={markdownComponents}
-              >
-                {markdownContent}
-              </ReactMarkdown>
-            </article>
           )}
+
+          <DialogHeader className="flex-none gap-2.5 border-b border-line px-6 pt-6 pb-5 text-left md:px-8">
+            <DialogTitle className="font-display text-[24px] font-bold tracking-[-0.03em] text-paper md:text-[26px]">
+              {project.title}
+            </DialogTitle>
+            <DialogDescription className="text-[17px] leading-relaxed text-mist">
+              {project.description}
+            </DialogDescription>
+            <div className="mt-1.5 flex flex-wrap gap-2">
+              {project.website && (
+                <Pill href={project.website} primary target="_blank" rel="noopener noreferrer">
+                  Website
+                </Pill>
+              )}
+              {project.appStore && (
+                <Pill href={project.appStore} target="_blank" rel="noopener noreferrer">
+                  App Store
+                </Pill>
+              )}
+              {project.googlePlay && (
+                <Pill href={project.googlePlay} target="_blank" rel="noopener noreferrer">
+                  Google Play
+                </Pill>
+              )}
+              {project.github && (
+                <Pill href={project.github} target="_blank" rel="noopener noreferrer">
+                  GitHub
+                </Pill>
+              )}
+            </div>
+          </DialogHeader>
+
+          <div className="px-6 py-6 md:px-8">
+            {isLoading ? (
+              <div className="space-y-3">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-4 w-2/3" />
+              </div>
+            ) : (
+              <article className="readme">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={markdownComponents}
+                >
+                  {markdownContent}
+                </ReactMarkdown>
+              </article>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

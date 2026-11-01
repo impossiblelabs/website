@@ -18,7 +18,7 @@ export function Pill({
     <a
       className={cn(
         "inline-flex items-center gap-2 whitespace-nowrap rounded-full font-semibold transition-colors",
-        size === "md" && "h-9 px-3.5 text-sm",
+        size === "md" && "h-11 px-4 text-sm md:h-9 md:px-3.5",
         size === "lg" && "h-12 px-5 font-display text-sm",
         primary
           ? "bg-accent text-ink hover:bg-accent-strong"

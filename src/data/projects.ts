@@ -11,8 +11,6 @@ export type Project = {
   tags?: string[];
   /** Brand background behind images that should be shown whole, not cropped */
   background?: string;
-  /** How the card image fills its area; "contain" (default) shows the whole image on the brand background */
-  imageFit?: "cover" | "contain";
 };
 
 // Shipped products with real users, shown first and larger
@@ -30,7 +28,7 @@ export const products: Project[] = [
     appStore: "https://apps.apple.com/app/id6805992515",
     googlePlay:
       "https://play.google.com/store/apps/details?id=fun.cashortrash.app",
-    tags: ["Game", "iOS", "Android"],
+    tags: ["App game"],
   },
   {
     title: "Quiesco",
@@ -42,7 +40,7 @@ export const products: Project[] = [
       "https://raw.githubusercontent.com/OxMarco/Quiesco/refs/heads/master/README.md",
     github: "https://github.com/OxMarco/Quiesco",
     website: "https://quiesco.rest",
-    tags: ["Open hardware", "Firmware", "Companion app"],
+    tags: ["Open hardware IoT"],
   },
   {
     title: "BlueBaħar",
@@ -50,12 +48,11 @@ export const products: Project[] = [
       "Know before you go out at sea: notices to mariners, hazards and weather around Malta on one map",
     image: "/projects/bluebahar.png",
     background: "#78c3ea",
-    imageFit: "cover",
     markdown: "/projects/bluebahar.md",
     website: "https://bluebahar.com",
     appStore: "https://apps.apple.com/mt/app/blueba%C4%A7ar/id6766516415",
     googlePlay: "https://play.google.com/store/apps/details?id=com.bluebahar.mt",
-    tags: ["Maps", "iOS", "Android"],
+    tags: ["Navigational app"],
   },
 ];
 
